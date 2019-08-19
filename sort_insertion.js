@@ -10,10 +10,12 @@ function insertionSort(arr) {
       console.log("SWAP");
       // Switch last numbers
       // [76,4] > [4,76]
-      arr[j + 1] = arr[j];
+      arr[j + 1] = item;
       console.log("arr", arr);
     }
     // the for loop ends but j is one less than then in the inner loop
+    // j moves back after previous iteration
+    // so you add one to it to place current item where j used to be
     arr[j + 1] = compareItem;
   }
   console.log(arr);
