@@ -53,12 +53,34 @@ class DoublyLinkedList {
     // return removed item
     return removed;
   }
+
+  // shift - remove first item  from begining
+  shift() {
+    if (!this.head) return undefined;
+
+    // get head
+    let removed = this.head;
+
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      // Set new head to it's next element
+      this.head = removed.next;
+      // Move to next and set it's previous to null since it's the new head there's nothing before it
+      this.head.prev = null;
+      // Remove the next element so it's isolated
+      removed.next = null;
+    }
+    this.length--;
+
+    return removed;
+  }
 }
 
 var list = new DoublyLinkedList();
 list.push(1);
 list.push(2);
 list.push(3);
-list.pop();
-list.pop();
+list.shift();
 console.log(list);
