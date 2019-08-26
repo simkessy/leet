@@ -102,6 +102,56 @@ class BinarySearchTree {
     }
     return data;
   }
+
+  DFSPreOrder() {
+    let data = [];
+
+    // Add to Data, then Recurse over left and right
+    function traverse(node) {
+      data.push(node.val);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+
+    traverse(this.root);
+    console.log("data:", data);
+    return data;
+  }
+
+  DFSPostOrder() {
+    let data = [];
+
+    // Recurse over left and right THEN add to data
+    /* Adding data at the end changes the order */
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      // Moving this down changes the order in which data is stored
+      data.push(node.val);
+    }
+
+    traverse(this.root);
+    console.log("data:", data);
+    return data;
+  }
+
+  DFSInOrder() {
+    let data = [];
+
+    // Recurse over left, add data, then right side, add data
+    /* Adding data at the end changes the order */
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      // if you push data in middle, it adds data in order from left to right - ish
+      data.push(node.val);
+      // Using && is another way to right the same thing
+      node.right && traverse(node.right);
+    }
+
+    traverse(this.root);
+    console.log("data:", data);
+    return data;
+  }
 }
 let tree = new BinarySearchTree();
 tree.insert(10);
@@ -111,7 +161,11 @@ tree.insert(11);
 tree.insert(2);
 tree.insert(16);
 tree.insert(7);
-tree.BFS();
+// tree.BFS();
+// tree.DFSPreOrder();
+// tree.DFSPostOrder();
+tree.DFSInOrder();
+
 console.log(JSON.stringify(tree, null, 2));
 
 /*           10
