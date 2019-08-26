@@ -95,12 +95,47 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
+
+  get(index) {
+    // Test if inputs are good
+    if (index >= this.length || index < 0) return null;
+
+    // Check if index is less than half the length
+    if (index < this.length / 2) {
+      // Set a counter to compare with index
+      let counter = 0;
+      // Store current node as you iterate
+      return (current = this.head);
+      // Loop until couter reaches target index
+      // Current ends up being value at index
+      while (counter !== index) {
+        current = current.next;
+        counter++;
+      }
+
+      return current;
+    } else {
+      // Counter is length of list
+      let counter = this.length - 1;
+      // current is tail
+      current = this.tail;
+      // loop and decrease counter until you reach target index
+      while (counter !== index) {
+        current = current.prev;
+        counter--;
+      }
+
+      return current;
+    }
+
+    console.log("current:", current);
+    return current;
+  }
 }
 
 var list = new DoublyLinkedList();
 list.push(1);
 list.push(2);
 list.push(3);
-list.unshift(5);
-list.unshift(6);
-console.log(list);
+list.get(3);
+// console.log(list);
