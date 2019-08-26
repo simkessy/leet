@@ -76,11 +76,31 @@ class DoublyLinkedList {
 
     return removed;
   }
+
+  unshift(val) {
+    let newNode = new Node(val);
+
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      // Point old head to newHead / newNode
+      this.head.prev = newNode;
+      // Set current head has next for newHead
+      newNode.next = this.head;
+      // Set head to newNode with oldhead pointing to it already
+      this.head = newNode;
+    }
+
+    this.length++;
+    return this;
+  }
 }
 
 var list = new DoublyLinkedList();
 list.push(1);
 list.push(2);
 list.push(3);
-list.shift();
+list.unshift(5);
+list.unshift(6);
 console.log(list);
