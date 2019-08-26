@@ -73,6 +73,35 @@ class BinarySearchTree {
     // Return false when node has no value ( there is no node)
     if (!found) return false;
   }
+
+  BFS() {
+    let node = this.root;
+    let data = [];
+    let queue = [];
+
+    if (!this.root) return data;
+
+    queue.push(node);
+    while (queue.length) {
+      // take from begining of queue
+      node = queue.shift();
+
+      // take node and add it to the list
+      data.push(node.val);
+
+      // Add left and right to queue
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+      console.log(
+        "queue size: ",
+        queue.length,
+        queue.map(q => q.val),
+        "data: ",
+        data
+      );
+    }
+    return data;
+  }
 }
 let tree = new BinarySearchTree();
 tree.insert(10);
@@ -82,9 +111,7 @@ tree.insert(11);
 tree.insert(2);
 tree.insert(16);
 tree.insert(7);
-console.log("search: ", tree.find(16));
-console.log("search: ", tree.find(5));
-console.log("search: ", tree.find(123));
+tree.BFS();
 console.log(JSON.stringify(tree, null, 2));
 
 /*           10
