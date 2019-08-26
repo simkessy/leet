@@ -105,7 +105,7 @@ class DoublyLinkedList {
       // Set a counter to compare with index
       let counter = 0;
       // Store current node as you iterate
-      return (current = this.head);
+      let current = this.head;
       // Loop until couter reaches target index
       // Current ends up being value at index
       while (counter !== index) {
@@ -118,7 +118,7 @@ class DoublyLinkedList {
       // Counter is length of list
       let counter = this.length - 1;
       // current is tail
-      current = this.tail;
+      let current = this.tail;
       // loop and decrease counter until you reach target index
       while (counter !== index) {
         current = current.prev;
@@ -131,11 +131,68 @@ class DoublyLinkedList {
     console.log("current:", current);
     return current;
   }
+
+  set(index, val) {
+    let node = this.get(index);
+    if (node) {
+      node.val = val;
+      return true;
+    }
+    return false;
+  }
+
+  insert(index, val) {
+    // Test for good index
+    if (index >= this.length || index < 0) return undefined;
+
+    // If at start use unshift
+    if (index === 0) return !!this.unshift(val);
+    // If at end use push
+    if (index === this.length - 1) return !!this.push(val);
+
+    let newNode = new Node(val);
+
+    let right = this.get(index - 1);
+    let left = right.next;
+    right.next = newNode;
+    newNode.prev = right;
+    newNode.next = left;
+    left.prev = newNode;
+
+    this.length++;
+    return true;
+  }
+
+  remove(index) {
+    // Test for good index
+    if (index >= this.length || index < 0) return undefined;
+
+    // If at start use unshift
+    if (index === 0) return !!this.shift();
+    // If at end use push
+    if (index === this.length - 1) return !!this.pop();
+
+    let removedNode = this.get(index);
+    let right = removedNode.prev;
+    let left = removedNode.next;
+    right.next = left;
+    left.prev = right;
+
+    removedNode.prev = null;
+    removedNode.next = null;
+
+    this.length--;
+    return removedNode;
+  }
 }
 
 var list = new DoublyLinkedList();
 list.push(1);
 list.push(2);
 list.push(3);
-list.get(3);
-// console.log(list);
+list.push(4);
+list.push(5);
+list.push(6);
+// list.set(1, "cats");
+
+console.log(list);
