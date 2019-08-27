@@ -8,20 +8,19 @@ class MaxBinaryHeap {
     let index = this.values.length - 1;
     let element = this.values[index];
 
-    let parentIndex = Math.floor((index - 1) / 2);
-    let parent = this.values[parentIndex];
+    while (index > 0) {
+      let parentIndex = Math.floor((index - 1) / 2);
+      let parent = this.values[parentIndex];
 
-    while (parent < element && index >= 0) {
-      // If parent is smaller than value, swap
+      // check to make sure parent is larger
+      if (element <= parent) break;
+
+      // Swap
       this.values[parentIndex] = element;
       this.values[index] = parent;
 
-      console.log(parentIndex, index, this.values);
+      // Update index
       index = parentIndex;
-      parentIndex = Math.floor((parentIndex - 1) / 2);
-      console.log("parentIndex:", parentIndex);
-      parent = this.values[parentIndex];
-      console.log("parentValue:", parent);
     }
   }
 
