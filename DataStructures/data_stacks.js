@@ -29,14 +29,18 @@ class Stack {
 
   // pop - remove from beginning
   pop() {
-    if (this.size === 0) return null;
+    if (!this.first) return null;
 
     let removed = this.first;
 
     if (this.first === this.last) {
       this.last = null;
+      // why not set this.first = null?
     }
 
+    // It's possible that removed.next === null
+    // Therefore the first line in put will return null
+    // So there's no need to set this.first = null in the if condition
     this.first = removed.next;
 
     this.size--;
