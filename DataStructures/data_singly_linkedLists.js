@@ -209,10 +209,11 @@ list.push("Hello-4");
 list.push("Hello-5");
 list.reverse();
 console.log(JSON.stringify(list, null, 2));
-
+/* 
 {
   next = current.next;
   curent.next = prev;
   prev = current;
   current = next;
 }
+ */
