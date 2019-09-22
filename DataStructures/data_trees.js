@@ -62,12 +62,15 @@ class BinarySearchTree {
     // Current will hit undefied once it gets to a leaf.
     // ie: leaf.left or leaf.right = null
     while (current && !found) {
+      if (current.val === val) return true;
+
+      // if val is less than current, go left
       if (val < current.val) {
         current = current.left;
-      } else if (val > current.val) {
+      }
+      // if val is greater than go right
+      else if (val > current.val) {
         current = current.right;
-      } else {
-        return true;
       }
     }
     // Return false when node has no value ( there is no node)
