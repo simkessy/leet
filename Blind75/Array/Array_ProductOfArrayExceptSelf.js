@@ -28,7 +28,7 @@ var productExceptSelf = function(nums) {
   // variable containing what we're multiplying by
   let right = 1;
 
-  // iterate from back to from multiplying and storing rightMulti from last number
+  // iterate from back to front multiplying and storing rightMulti from last number
   for (let i = nums.length - 1; i >= 0; i--) {
     output[i] = right;
     right *= nums[i];

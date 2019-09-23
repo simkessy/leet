@@ -33,14 +33,14 @@ var search = function(nums, target) {
     if (target === nMid) return mid;
 
     if (nStart <= nMid) {
-      if (target >= nStart && target < nMid) {
+      if (nStart <= target && target < nMid) {
         // if trgt is in between start and mid,  bring end closer
         end = mid - 1;
       } else {
         start = mid + 1;
       }
     } else {
-      if (target > nMid && target <= nEnd) {
+      if (nMid < target && target <= nEnd) {
         start = mid + 1;
       } else {
         end = mid - 1;
