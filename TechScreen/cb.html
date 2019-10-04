@@ -1,0 +1,161 @@
+<div id="root"></div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<hr/>
+Example image
+<div id="STEP_3"><img src="https://i.ibb.co/NWKs3TD/1RP2mMm.png"/></div>
+<!-- <div id="STEP_1"><img src="https://i.ibb.co/v3FPM2z/Screen-Shot-2019-06-24-at-1-36-56-PM.png"/></div> -->
+<!-- <div id="STEP_2"><img width="300px" src="https://i.ibb.co/8PQqFx8/Kapture-2019-06-24-at-13-33-48.gif"/></div> -->
+
+<hr/>
+<div>
+  Checkout <a href="https://pro.coinbase.com/trade/BTC-USD">pro.coinbase.com/trade.</a><br/><br/>
+  We're going to build a simplified order book.<br/> 
+  <br/>1. Make a row that has a size and a price. Size in White and Price in Red. Background dark.
+  <br/> 2. Make the size show up as red and fade to white over the course of 2 seconds
+  <br/> 3. Make a BUY button. The button should be green with BUY centered inside and white text. When clicked, calls a function that displays a new row in your order book. Use getNewOrder to get data for a new row.
+  </br> 4. We can only display at most 4 rows at a time due to limited space on the screen. If the Buy button is pressed while there are already 4 rows, do not add another row, ignore it.
+</div> 5. Each row becomes stale after 2 seconds. Remove it from the display after 2 seconds to make room for new ones.
+</br> 6. Rather than removing a row when it gets stale (fully white size), leave it there. When a new order is created, replace a stale one with the new one. If there are no stale rows, ignore it.
+<hr/>
+
+
+<style>
+body {
+  background: #121b25;
+  color: white;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 100px 100px; 
+  padding-left: 40px;
+}
+
+@keyframes FadeIn {
+  from {
+    color: red;
+  }
+  
+  to {
+    color: white;
+  }
+}
+
+
+
+.size{ 
+  animation: FadeIn 0.75s ease-in-out forwards;
+}
+
+
+
+
+.red {
+  color: red 
+}
+
+.white {
+  color: white; 
+}
+
+.price {
+  color: red;
+}
+button:disabled {
+  background: grey; 
+}
+button {
+  border: solid darkgreen 1px; 
+  margin-top: 20px;
+  background: green;
+  width: 200px;
+  height: 3.4em; 
+  font-size: 20px; 
+  font-weight: bold; 
+  color: white; 
+  cursor: pointer;
+}
+</style>
+
+<script>
+// Helper function to get an orderbook
+let globalSize = 1;
+const getNewOrder = () => {
+  const id = parseInt(Math.random() * 100000); // simulate random ID
+  const size = globalSize + Math.random().toPrecision(4);
+  globalSize = globalSize + 1;
+  const price = 5000 + Math.random().toPrecision(4) * 100;
+  return { id, price, size };
+};
+
+class CoinbaseOrderBook extends React.Component {
+  state = {
+    sizeColor: "red",
+    orders: []
+  };
+
+  handleBuy() {
+    let currentOrders = this.state.orders;
+
+    // check length and if any stale
+    if (currentOrders.length >= 4) {
+      // Remove last if we have >4 and find stale items
+      currentOrders.find(order => {
+        return order.stale;
+      }).length > 0 && currentOrders.shift();
+    }
+
+    this.setState(
+      {
+        orders: [...currentOrders, { ...getNewOrder(), ...{ stale: false} }]
+      },
+      () => { console.log(this.state.orders);
+        
+        setTimeout(() => {
+          console.log(this.state.orders);
+
+          this.state.orders[this.state.orders.length - 1].stale = true;
+          this.setState({ orders: this.state.orders });
+        }, 2000);
+      }
+    );
+  }
+
+  render() {
+    return (
+      <>
+        {this.state.orders &&
+          this.state.orders.map(order => {
+            return (
+              <OrderRow
+                key={order.id}
+                color={this.state.sizeColor}
+                size={order.size}
+                price={order.price}
+              />
+            );
+          })}
+        <button onClick={this.handleBuy.bind(this)}>Buy</button>
+      </>
+    );
+  }
+}
+
+const OrderRow = ({ size, price, color }) => {
+  return (
+    <div className="row">
+      <div className={`size`}>{size}</div>
+      <div className="price">{price}</div>
+    </div>
+  );
+};
+
+console.clear();
+ReactDOM.render(<CoinbaseOrderBook />, document.querySelector("#root"));
+
+</script>
